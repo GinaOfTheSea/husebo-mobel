@@ -1,0 +1,45 @@
+hero:
+  title: Graving, sprenging, og transport - uten tull
+  description: Fra utgraving av trange kjellere til store tomter og kommunale
+    oppdrag. Vi har maskinparken og erfaringen som kreves.
+  button_text: Få et tilbud
+  image: /static/img/gemini_generated_image_ecikg0ecikg0ecik.png
+tjenester_header:
+  title: Våre Tjenester
+  description: Vi utfører små til mellomstore jobber med høy presisjon og godkjent
+    kompetanse.
+tjenester:
+  - title: Graving & Tomtearbeid
+    description: Klargjøring av tomter, utgraving av kjellere, kabelgrøfter,
+      utarbeiding av drens og VA stikk.
+  - title: Sprengningsarbeid
+    description: Sikker og kontrollert sprengning for alle typer terreng, enten det
+      er for husbygging eller infrastruktur.
+  - title: Massetransport
+    description: Vi håndterer effektiv transport av masse til og fra anleggsplassen,
+      samt diverse maskintransport.
+  - title: Natursteinsmurer
+    description: Vi bygger solide og estetiske støttemurer og natursteinsmurer
+      tilpasset ditt uteområde.
+  - title: Vann og Avløp (VA)
+    description: Graving og tilkobling av vann og avløp for både nye og eksisterende
+      boliger.
+  - title: Snøbrøyting
+    description: Vi tilbyr pålitelig snøbrøyting og strøing for bedrifter,
+      borettslag og private om vinteren.
+om_oss:
+  title: Om RS Maskin
+  beskrivelse_1: RS Maskin eies og drives av Rune Stranden. Til sammen er vi to
+    ansatte som disponerer en velutstyrt og moderne maskinpark.
+  beskrivelse_2: Vi har til sammen tre gravemaskiner — fra den minste som er
+    ideell til å grave ut kjellere, til den største for å grave ut store tomter.
+    Vi utfører små til mellomstore jobber for både private, stat og kommune, og
+    leverer alltid med presisjon og yrkesstolthet.
+  logo_godkjenning: /static/img/sentralt-godkjent.jpg
+kontakt:
+  title: Kontakt Oss
+  bilde: /static/img/gemini_generated_image_99lj5999lj5999lj.png
+  navn: Rune Stranden
+  rolle: Daglig Leder / RS Maskin
+  telefon: 913 50 859
+  epost: post@rs-maskin.no

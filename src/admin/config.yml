@@ -12,14 +12,15 @@ public_folder: "/static/img"
 local_backend: true
 # publish_mode: editorial_workflow
 collections:
-  - label: "Portfolio"
-    name: "portfolio"
-    folder: "src/portfolio"
-    create: true
+  - label: "Bilder: Maskinpark & Prosjekter"  # Dette er hva Rune ser i menyen
+    name: "maskinpark"                        # Internt navn
+    folder: "src/maskinpark"                  # Mappen bildene lagres i
+    create: true                              # Lar Rune trykke "Legg til ny"
     slug: "{{title}}"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Photo", name: "photo", widget: "image" }
+      - { label: "Tittel (Viser når du holder musen over)", name: "title", widget: "string" }
+      - { label: "Last opp bilde", name: "photo", widget: "image" }
+
   - label: "Settings"
     name: "settings"
     editor:
@@ -37,18 +38,6 @@ collections:
             fields:
               - { label: Title, name: text, widget: string }
               - { label: URL, name: url, widget: string }
-      - label: "Quick Links"
-        name: "links"
-        file: "src/_data/quicklinks.yaml"
-        fields:
-          - label: Nav Items
-            name: links
-            widget: list
-            collapsed: false
-            fields:
-              - { label: Title, name: title, widget: string }
-              - { label: URL, name: url, widget: string }
-              - { label: Description, name: desc, widget: string }
       - label: "Meta Settings"
         name: "settings"
         file: "src/_data/settings.yaml"
@@ -56,3 +45,57 @@ collections:
           - { label: Name, name: name, widget: string }
           - { label: Author, name: author, widget: string }
           - { label: URL, name: url, widget: string }
+  - label: "Pages"
+    name: "pages"
+    files:
+      - label: "Homepage"
+        name: "home"
+        file: "src/_data/homepage.yaml"
+        fields:
+          # --- HERO SEKSJON ---
+          - label: "Hero Section"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Main Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Button Text", name: "button_text", widget: "string" }
+              - { label: "Hero Image", name: "image", widget: "image" }
+         
+          # --- TJENESTER SEKSJON ---
+          - label: "Tjenester Overskrift"
+            name: "tjenester_header"
+            widget: "object"
+            fields:
+              - { label: "Tittel", name: "title", widget: "string" }
+              - { label: "Beskrivelse", name: "description", widget: "text" }
+              
+          - label: "Tjenesteliste"
+            name: "tjenester"
+            widget: "list"
+            summary: '{{fields.title}}'
+            fields:
+              - { label: "Tjeneste Navn", name: "title", widget: "string" }
+              - { label: "Kort Beskrivelse", name: "description", widget: "text" }
+
+          # --- OM OSS SEKSJON (NY) ---
+          - label: "Om Oss"
+            name: "om_oss"
+            widget: "object"
+            fields:
+              - { label: "Overskrift", name: "title", widget: "string" }
+              - { label: "Beskrivelse Del 1", name: "beskrivelse_1", widget: "text" }
+              - { label: "Beskrivelse Del 2", name: "beskrivelse_2", widget: "text" }
+              - { label: "Godkjennings-logo", name: "logo_godkjenning", widget: "image" }
+
+          # --- KONTAKT SEKSJON (NY) ---
+          - label: "Kontakt Oss"
+            name: "kontakt"
+            widget: "object"
+            fields:
+              - { label: "Overskrift", name: "title", widget: "string" }
+              - { label: "Profilbilde", name: "bilde", widget: "image" }
+              - { label: "Navn", name: "navn", widget: "string" }
+              - { label: "Rolle / Tittel", name: "rolle", widget: "string" }
+              - { label: "Telefonnummer", name: "telefon", widget: "string" }
+              - { label: "E-postadresse", name: "epost", widget: "string" }

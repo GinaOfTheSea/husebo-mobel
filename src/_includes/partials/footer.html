@@ -1,9 +1,6 @@
-<footer class="{{ 'fixed' if path == 'home' }} bottom-0 text-center w-full py-4">
-    <small class="text-gray-500">Copyright ©
-        {{settings.name}}
-        2020. Made with ❤ by
-        <a href="{{settings.url}}" target="_blank" class="underline">{{settings.author}}</a>
-        •
-        <a href="https://github.com/surjithctly/neat-starter" class="underline" target="_blank" rel="noopener">View on Github</a>
+<footer class="bg-gray-900 text-center w-full py-8 border-t border-gray-800">
+    <small class="text-gray-400 text-sm">
+        Copyright &copy; <span x-data x-text="new Date().getFullYear()"></span> {{settings.name}}. 
+        Nettside levert av <a href="{{settings.url}}" target="_blank" class="text-gray-300 hover:text-red-500 transition duration-300">{{settings.author}}</a>
     </small>
 </footer>
