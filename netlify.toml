@@ -6,3 +6,4 @@
   targetPort = 8080        # Porten 11ty faktisk kjører på
   framework = "#custom" # Forteller Netlify at vi styrer oppsettet selv
   delay = 3000          # Venter 3 sekunder før den prøver å koble til
+  ignore = "true"
