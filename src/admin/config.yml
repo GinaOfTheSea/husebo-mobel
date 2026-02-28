@@ -10,7 +10,8 @@ public_folder: "/static/img"
 
 # Please run "npx netlify-cms-proxy-server" for local backend
 local_backend: true
-# publish_mode: editorial_workflow
+publish_mode: editorial_workflow
+squash_merges: true
 collections:
   - label: "Bilder: Maskinpark & Prosjekter"  # Dette er hva Rune ser i menyen
     name: "maskinpark"                        # Internt navn
