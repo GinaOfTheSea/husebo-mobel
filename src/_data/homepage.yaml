@@ -26,6 +26,14 @@ tjenester:
   - title: Snøbrøyting
     description: Vi tilbyr pålitelig snøbrøyting og strøing for bedrifter,
       borettslag og private om vinteren.
+
+# --- MASKINPARK / PROSJEKTER ---
+# Adding a dedicated header for the gallery section
+maskinpark_header:
+  title: "Maskinpark & Prosjekter"
+  description: "Her kan du finne bilder av maskinene våre, og arbeidet vi har gjort"
+  button_text: "Se hele galleriet"
+
 om_oss:
   title: Om RS Maskin
   beskrivelse_1: RS Maskin eies og drives av Rune Stranden. Til sammen er vi to

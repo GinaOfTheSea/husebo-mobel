@@ -61,135 +61,64 @@ path: home
   </div>
 </section>
 
-<!--MASKINPARK-->
 <section class="py-20 bg-gray-50 overflow-hidden" 
   x-data="{ 
-    open: false, 
-    showGrid: false, 
-    activeImage: '', 
-    activeTitle: '',
-    interval: null,
-    scrollAmount() { return this.$refs.slider.offsetWidth > 600 ? 400 : 300 },
+    activeStep: 0,
+    totalItems: {{ collections.maskinpark.length }},
+    get itemsPerPage() { return window.innerWidth > 1024 ? 3 : 1 },
+    get maxSteps() { return Math.ceil(this.totalItems / this.itemsPerPage) },
     scrollNext() { 
-      let slider = this.$refs.slider;
-      if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 10) {
-        slider.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        slider.scrollBy({ left: this.scrollAmount(), behavior: 'smooth' });
-      }
+      this.activeStep = (this.activeStep + 1) % this.maxSteps;
+      this.$refs.slider.scrollTo({ 
+        left: this.activeStep * this.$refs.slider.clientWidth, 
+        behavior: 'smooth' 
+      });
     },
-    scrollPrev() { this.$refs.slider.scrollBy({ left: -this.scrollAmount(), behavior: 'smooth' }) },
-    startAutoScroll() {
-      // Starter bare karusellen igjen hvis BÅDE lightboxen og rutenettet er lukket
-      if (!this.showGrid && !this.open) {
-        this.interval = setInterval(() => { this.scrollNext() }, 4000);
-      }
-    },
-    stopAutoScroll() {
-      clearInterval(this.interval);
-    }
+    startAuto() { this.interval = setInterval(() => this.scrollNext(), 4000) },
+    stopAuto() { clearInterval(this.interval) }
   }"
-  x-init="startAutoScroll()">
+  x-init="startAuto()">
   
-  <div class="container mx-auto px-6 mb-10 flex flex-col sm:flex-row justify-between items-end gap-6">
-    <div>
-      <h2 class="text-3xl font-bold text-gray-900 border-l-4 border-red-600 pl-4">Maskinpark & Prosjekter</h2>
-      <p class="text-gray-600 mt-2 pl-5">Sveip for å se hva vi jobber med, eller se hele galleriet</p>
-    </div>
-    
-    <div class="flex gap-3">
+  <div class="container mx-auto px-6 mb-12">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="text-center md:text-left">
+        <h2 class="text-3xl font-bold text-gray-900 border-l-4 border-red-600 pl-4 uppercase tracking-tight">{{ homepage.maskinpark_header.title }}</h2>
+      <p class="mt-4 text-lg text-gray-600">{{ homepage.maskinpark_header.description }}</p>
+      </div>
       
-      <button @click="showGrid = true; stopAutoScroll();" class="p-3 bg-white border border-gray-200 shadow-sm hover:border-red-600 hover:text-red-600 rounded-full transition flex items-center justify-center group" aria-label="Vis alle prosjekter i rutenett">
-        <svg class="w-6 h-6 transform group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-        </svg>
-      </button>
-
-      <button @click="scrollPrev(); stopAutoScroll();" class="p-3 bg-white border border-gray-200 shadow-sm hover:border-red-600 hover:text-red-600 rounded-full transition flex items-center justify-center group" aria-label="Forrige bilde">
-        <svg class="w-6 h-6 transform group-hover:-translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-      </button>
-      
-      <button @click="scrollNext(); stopAutoScroll();" class="p-3 bg-white border border-gray-200 shadow-sm hover:border-red-600 hover:text-red-600 rounded-full transition flex items-center justify-center group" aria-label="Neste bilde">
-        <svg class="w-6 h-6 transform group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-      </button>
-
     </div>
   </div>
-
-  <div class="container mx-auto px-6 relative"
-       @mouseenter="stopAutoScroll" 
-       @mouseleave="startAutoScroll"
-       @touchstart="stopAutoScroll"
-       @touchend="startAutoScroll">
-    
+  
+  <div class="container mx-auto px-6 relative group" @mouseenter="stopAuto()" @mouseleave="startAuto()">
     <div x-ref="slider" 
-         class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 pt-4 scroll-smooth hide-scrollbar" 
-         style="scrollbar-width: none; -ms-overflow-style: none;">
-      
-      <style>
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-      </style>
-
-      {% for item in collections.maskinpark | reverse %}
-      <div class="relative flex-none w-[85%] sm:w-[45%] lg:w-[30%] snap-center sm:snap-start group cursor-pointer rounded-xl overflow-hidden shadow-lg bg-black"
-           @click="open = true; activeImage = '{{ item.data.photo }}'; activeTitle = '{{ item.data.title }}'; stopAutoScroll()">
-        
-        <img src="{{ item.data.photo }}" alt="{{ item.data.title }}" 
-             class="w-full h-80 object-cover opacity-90 group-hover:opacity-100 transform group-hover:scale-105 transition duration-500">
-        
-        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 pt-12 transform translate-y-2 group-hover:translate-y-0 transition duration-300">
-          <h3 class="text-xl font-bold text-white tracking-wide uppercase">{{ item.data.title }}</h3>
-          <div class="w-8 h-1 bg-red-600 mt-2 transform origin-left scale-x-0 group-hover:scale-x-100 transition duration-300 delay-100"></div>
-        </div>
-      </div>
-      {% endfor %}
-
-    </div>
-  </div>
-
-  <div x-show="showGrid" x-transition.opacity
-       class="fixed inset-0 z-40 bg-gray-50 overflow-y-auto"
-       @keydown.escape.window="showGrid = false; startAutoScroll()" 
-       style="display: none;">
+    class="flex overflow-x-hidden snap-x snap-mandatory scroll-smooth">
     
-    <div class="container mx-auto px-6 py-10 md:py-16">
-      <div class="flex justify-between items-center mb-10 border-b border-gray-200 pb-6">
-        <div>
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 border-l-4 border-red-600 pl-4">Alle Prosjekter</h2>
-        </div>
-        <button @click="showGrid = false; startAutoScroll()" class="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition" aria-label="Lukk">
-          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-      </div>
-      
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {% for item in collections.maskinpark | reverse %}
-        <div class="relative group cursor-pointer rounded-xl overflow-hidden shadow-sm bg-black aspect-square"
-             @click="open = true; activeImage = '{{ item.data.photo }}'; activeTitle = '{{ item.data.title }}';">
-          <img src="{{ item.data.photo }}" alt="{{ item.data.title }}" 
-               class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transform group-hover:scale-105 transition duration-500">
-          <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 via-black/40 to-transparent p-4 transform translate-y-2 group-hover:translate-y-0 transition duration-300">
-            <h3 class="text-base font-bold text-white tracking-wide uppercase">{{ item.data.title }}</h3>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
+{% for item in collections.maskinpark | reverse %}
+<div class="flex-none w-full lg:w-1/3 p-2 snap-start">
+  <a href="/galleri" class="block group/item relative aspect-[4/3] rounded-2xl overflow-hidden shadow-md bg-gray-200 border-2 border-transparent hover:border-red-600 transition-all duration-300">
+    
+    <img src="{{ item.data.photo }}" alt="Se i galleri" 
+    class="w-full h-full object-cover transform group-hover/item:scale-110 transition duration-700">
+    
+    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+         <div class="bg-white/90 p-2 rounded-full text-red-600 shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+            </svg>
+         </div>
     </div>
+  </a>
+</div>
+{% endfor %}
+    
   </div>
-
-  <div x-show="open" x-transition.opacity
-    class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-95 p-4"
-    @keydown.escape.window="open = false; startAutoScroll()" style="display: none;">
-
-    <button @click="open = false; startAutoScroll()"
-      class="absolute top-5 right-5 text-white hover:text-red-500 text-5xl transition">&times;</button>
-
-    <div @click.away="open = false; startAutoScroll()" class="max-w-6xl w-full flex flex-col items-center">
-      <img :src="activeImage"
-        class="max-w-full lg:max-w-5xl max-h-[80vh] w-auto object-contain shadow-2xl border-4 border-white">
-      <p x-text="activeTitle" class="text-white mt-6 text-2xl font-bold uppercase tracking-wide"></p>
-    </div>
+  
+  <div class="flex justify-center gap-2 mt-8">
+    <a href="/galleri" class="px-8 py-3 bg-white border border-gray-200 text-gray-900 font-bold rounded-full hover:bg-red-600 hover:text-white hover:border-red-600 transition duration-300 shadow-sm uppercase text-sm tracking-widest">
+      {{ homepage.maskinpark_header.button_text }}
+    </a>
   </div>
+</div>
 </section>
 
 

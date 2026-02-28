@@ -4,5 +4,7 @@ items:
     url: "#tjeneste"
   - text: Om oss
     url: "#om-oss"
+  - text: Galleri
+    url: "/galleri"
   - text: Kontakt
     url: "#kontakt"

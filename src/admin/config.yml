@@ -10,8 +10,8 @@ public_folder: "/static/img"
 
 # Please run "npx netlify-cms-proxy-server" for local backend
 local_backend: true
-publish_mode: editorial_workflow
-squash_merges: true
+#publish_mode: editorial_workflow
+#squash_merges: true
 collections:
   - label: "Bilder: Maskinpark & Prosjekter"  # Dette er hva Rune ser i menyen
     name: "maskinpark"                        # Internt navn
@@ -78,7 +78,16 @@ collections:
             fields:
               - { label: "Tjeneste Navn", name: "title", widget: "string" }
               - { label: "Kort Beskrivelse", name: "description", widget: "text" }
-
+          
+          # --- MASKINPARK / PROSJEKTER SEKSJON ---
+          - label: "Maskinpark & Galleri Tekst"
+            name: "maskinpark_header"
+            widget: "object"
+            fields:
+              - { label: "Overskrift", name: "title", widget: "string" }
+              - { label: "Beskrivelse", name: "description", widget: "text" }
+              - { label: "Knappetekst", name: "button_text", widget: "string" }
+          
           # --- OM OSS SEKSJON (NY) ---
           - label: "Om Oss"
             name: "om_oss"
@@ -100,3 +109,11 @@ collections:
               - { label: "Rolle / Tittel", name: "rolle", widget: "string" }
               - { label: "Telefonnummer", name: "telefon", widget: "string" }
               - { label: "E-postadresse", name: "epost", widget: "string" }
+      # --- GALLERI SIDE ---
+      - label: "Galleriside"
+        name: "galleri_page"
+        file: "src/_data/galleri.yaml"
+        fields:
+          - { label: "Sidetittel", name: "title", widget: "string" }
+          - { label: "Undertekst", name: "subtitle", widget: "text" }
+ 

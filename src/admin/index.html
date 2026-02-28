@@ -5,11 +5,63 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Content Manager</title>
     </head>
+    <button id="build-btn" style="position: fixed; bottom: 20px; left: 20px; z-index: 9999; background: #dc2626; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+  🚀 Publiser endringer live (Bygg)
+</button>
+
+<script>
+  document.getElementById('build-btn').addEventListener('click', async function() {
+    const btn = this;
+    
+    // 1. Sjekk at Netlify Identity er lastet og at noen er logget inn
+    if (!window.netlifyIdentity || !window.netlifyIdentity.currentUser()) {
+      alert("Du må være logget inn for å bygge nettsiden!");
+      return;
+    }
+
+    btn.innerText = "⏳ Bygger nettsiden...";
+    btn.style.background = "#d97706";
+    
+    try {
+      // 2. Hent brukerens hemmelige token
+      const token = await window.netlifyIdentity.currentUser().jwt();
+      
+      // 3. Send forespørselen MED tokenet som et bevis
+      const res = await fetch('/.netlify/functions/trigger-build', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      if (res.ok) {
+        btn.innerText = "✅ Vellykket! Siden oppdateres.";
+        btn.style.background = "#16a34a";
+      } else if (res.status === 401) {
+        throw new Error('Ingen adgang! Du ble avvist av serveren.');
+      } else {
+        throw new Error('Noe gikk galt med bygget.');
+      }
+    } catch (e) {
+      console.error(e);
+      btn.innerText = "❌ Feil! Prøv igjen.";
+      btn.style.background = "#991b1b";
+    }
+
+    setTimeout(() => {
+      btn.innerText = "🚀 Publiser endringer live (Bygg)";
+      btn.style.background = "#dc2626";
+    }, 5000);
+  });
+</script>
+
+
     <body>
+        
         <!-- Include the script that builds the page and powers Netlify CMS -->
         <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
         <!-- Netlify Identity Widget -->
         <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     </body>
+    
 </html>

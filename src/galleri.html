@@ -1,0 +1,36 @@
+---
+layout: default
+title: Galleri - RS Maskin
+---
+
+<section class="py-28 bg-white min-h-screen" x-data="{ open: false, activeImage: '', activeTitle: '' }">
+  <div class="container mx-auto px-6">
+    <div class="mb-16 text-center">
+      <h1 class="text-4xl md:text-4xl font-black text-gray-900 uppercase tracking-tighter">{{ galleri.title }}</h1>
+      <p class="text-lg md:text-lg text-gray-600 uppercase tracking-tighter">{{ galleri.subtitle }}</p>
+      <div class="w-24 h-2 bg-red-600 mx-auto mt-4"></div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {% for item in collections.maskinpark | reverse %}
+      <div class="cursor-pointer group relative aspect-square rounded-xl overflow-hidden bg-gray-100 shadow-sm"
+           @click="open = true; activeImage = '{{ item.data.photo }}'; activeTitle = '{{ item.data.title }}'">
+        <img src="{{ item.data.photo }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+            <span class="text-white font-bold uppercase tracking-widest text-sm border-b-2 border-red-600">{{ item.data.title }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div x-show="open" x-transition.opacity
+    class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/95 p-4"
+    @keydown.escape.window="open = false" style="display: none;">
+    <button @click="open = false" class="absolute top-5 right-5 text-white text-5xl">&times;</button>
+    <div @click.away="open = false" class="max-w-6xl w-full flex flex-col items-center">
+      <img :src="activeImage" class="max-w-full max-h-[85vh] rounded shadow-2xl">
+      <p x-text="activeTitle" class="text-white mt-6 text-xl font-bold uppercase"></p>
+    </div>
+  </div>
+</section>
