@@ -1,4 +1,4 @@
 ---
 title: Sprenging i fjell
-photo: /static/img/rune-stranden.jpg
+photo: /static/img/hero-image.jpg
 ---

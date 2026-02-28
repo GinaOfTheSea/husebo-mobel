@@ -1,4 +1,4 @@
 ---
 title: Gravemaskin og kunstgress
-photo: /static/img/wpdbbfc8b3_06.png
+photo: https://upload.wikimedia.org/wikipedia/commons/d/d6/Volvo_Kettenbagger_EC290B_1.jpg
 ---
